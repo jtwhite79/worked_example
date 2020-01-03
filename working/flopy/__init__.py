@@ -38,7 +38,6 @@ from . import modflowlgr
 from . import utils
 from . import plot
 from . import export
-from . import pest
 from . import mf6
 from . import discretization
 
