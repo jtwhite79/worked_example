@@ -7,7 +7,7 @@ LPF               17  eaa_ver.lpf
 WEL               12  eaa_ver.wel 
 DRN               13  eaa_ver.drn 
 RCH               18  eaa_ver.rch 
-HFB6              26  hfb6_org/eaa_ver.hfb 
+HFB6              26  eaa_ver.hfb 
 OC                22  eaa_ver.oc 
 GMG               19  eaa_ver.gmg 
 DATA(BINARY)      50  eaa_ver.cbb REPLACE
