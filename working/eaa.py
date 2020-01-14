@@ -2178,5 +2178,5 @@ if __name__ == "__main__":
 
     #soup_to_nuts(3)
     #hfb_shapefile()
-    #setup_models_parallel()
-    print("test")
+    setup_models_parallel()
+    #print("test")
