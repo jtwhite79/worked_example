@@ -1225,6 +1225,8 @@ def plot_below(pst_file, pr_en_file, pt_en_file=None,
     if pt_en_file is not None:
         pt_en = pyemu.ObservationEnsemble.from_binary(pst=pst,
                                                       filename=pt_en_file)
+        # make sure we are showing the same prior and posterior reals
+        pr_en = pr_en.loc[pt_en.index,:]
 
     # get just the comal springs ensemble blocks
     # and convert to positive CFS
@@ -1300,13 +1302,26 @@ def plot_below(pst_file, pr_en_file, pt_en_file=None,
 
     truth_mx = max(longest, current)
     print("comal",comal_truth,truth_mx)
-    # use geometric series for binning bc appearent log distro
-    bins = np.geomspace(0.1, max(pr_max), 20)
+    
+    density=True
+    mxbin = 40
+    bins = np.arange(0,mxbin,1)
+    
+    # echo number of realizations not being shown greater than mxbin
+    # this goes in the figure caption
+    tpr = np.array(pr_max)
+    tpt = np.array(pt_max)
+    print("consec",tpr[tpr>mxbin].shape,tpt[tpt>mxbin].shape)
+    tpr = np.array(pr_count)
+    tpt = np.array(pt_count)
+    print("count", tpr[tpr > mxbin].shape, tpt[tpt > mxbin].shape)
+
+
     fig, axes = plt.subplots(1, 2, figsize=(8.5, 4))
     ax = axes[0]
-    ax.hist(pr_max, bins=bins, facecolor="0.5", edgecolor="none", alpha=0.35)
+    ax.hist(pr_max, bins=bins, facecolor="0.5", edgecolor="none", alpha=0.35, density=density)
     if pt_en is not None:
-        ax.hist(pt_max, bins=bins, facecolor="b", edgecolor="none", alpha=0.5)
+        ax.hist(pt_max, bins=bins, facecolor="b", edgecolor="none", alpha=0.35, density=density)
     ax.set_ylabel("increasing probability density")
     ymin = ax.get_ylim()
     ax.plot([truth_mx, truth_mx], ymin, "r-")
@@ -1317,9 +1332,9 @@ def plot_below(pst_file, pr_en_file, pt_en_file=None,
                  " $\\frac{ft^3}{s}$", loc="left")
 
     ax = axes[1]
-    ax.hist(pr_count, bins=bins, facecolor="0.5", edgecolor="none", alpha=0.35)
+    ax.hist(pr_count, bins=bins, facecolor="0.5", edgecolor="none", alpha=0.35, density=density)
     if pt_en is not None:
-        ax.hist(pt_count, bins=bins, facecolor="b", edgecolor="none", alpha=0.5)
+        ax.hist(pt_count, bins=bins, facecolor="b", edgecolor="none", alpha=0.35, density=density)
     ax.set_ylabel("increasing probability density")
     ymin = ax.get_ylim()
     ax.plot([comal_truth, comal_truth], ymin, "r-")
@@ -1900,7 +1915,7 @@ def plot_phi_hists(post_iter):
     for ax in axes.flatten():
         # ax.set_xticks([])
         ax.set_yticks([])
-        ax.set_xlabel("$log_{10} \phi$")
+        ax.set_xlabel("$log_{10} \Phi$")
 
     plt.tight_layout()
     plt.savefig(os.path.join(m_d, "phi_hists.pdf"))
