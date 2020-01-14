@@ -7,4 +7,5 @@ Directories:
 pred - the MODFLOW-2005 input files supplied by the Edwards Aquifer Authority for the scenario hindcast simulation
 ver - the MODFLOW-2005 input files supplied by the Edwards Aquifer Authority for the history-matching simulation
 working - the directory where the analyses are completed
+src - source code for MODFLOW-2005 and PEST++ versions used
 
